@@ -2,6 +2,7 @@ package com.dmitriitrofimov.servlet;
 
 import com.dmitriitrofimov.ishop.util.SessionUtils;
 import com.dmitriitrofimov.model.ShoppingCart;
+import com.dmitriitrofimov.model.ShoppingCartItem;
 
 import java.io.IOException;
 import java.util.Random;
@@ -20,32 +21,32 @@ public class ShoppingCartServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cmd = req.getParameter("cmd");
-		if("clear".equals(cmd)){
+		if ("clear".equals(cmd)) {
 			SessionUtils.clearCurrentShoppingCart(req, resp);
-		} else if("invalidate".equals(cmd)){
+		} else if ("invalidate".equals(cmd)) {
 			req.getSession().invalidate();
-		} else if("add".equals(cmd)){
+		} else if ("add".equals(cmd)) {
 			addProduct(req, resp);
 		} else {
 			sync(req, resp);
 		}
 		showShoppingCart(req, resp);
 	}
-	
+
 	protected void showShoppingCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.getRequestDispatcher("/WEB-INF/shopping-cart.jsp").forward(req, resp);
 	}
-	
+
 	protected void addProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ShoppingCart shoppingCart = SessionUtils.getCurrentShoppingCart(req);
 		Random r = new Random();
-		shoppingCart.addProduct(r.nextInt(2), r.nextInt(1)+1);
+		shoppingCart.addProduct(r.nextInt(2), r.nextInt(1) + 1);
 	}
-	
+
 	protected void sync(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if(!SessionUtils.isCurrentShoppingCartCreated(req)) {
+		if (!SessionUtils.isCurrentShoppingCartCreated(req)) {
 			Cookie cookie = SessionUtils.findShoppingCartCookie(req);
-			if(cookie != null) {
+			if (cookie != null) {
 				ShoppingCart shoppingCart = shoppingCartFromString(cookie.getValue());
 				SessionUtils.setCurrentShoppingCart(req, shoppingCart);
 			}
@@ -55,7 +56,8 @@ public class ShoppingCartServlet extends HttpServlet {
 			SessionUtils.updateCurrentShoppingCartCookie(cookieValue, resp);
 		}
 	}
-	
+
+	// 2311-5|432-6
 	protected String shoppingCartToString(ShoppingCart shoppingCart) {
 		StringBuilder res = new StringBuilder();
 		for (ShoppingCartItem shoppingCartItem : shoppingCart.getItems()) {
@@ -66,7 +68,7 @@ public class ShoppingCartServlet extends HttpServlet {
 		}
 		return res.toString();
 	}
-	
+
 	protected ShoppingCart shoppingCartFromString(String cookieValue) {
 		ShoppingCart shoppingCart = new ShoppingCart();
 		String[] items = cookieValue.split("\\|");

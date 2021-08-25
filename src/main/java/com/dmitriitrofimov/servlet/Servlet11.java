@@ -1,5 +1,7 @@
 package com.dmitriitrofimov.servlet;
 
+import com.dmitriitrofimov.model.Model;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
