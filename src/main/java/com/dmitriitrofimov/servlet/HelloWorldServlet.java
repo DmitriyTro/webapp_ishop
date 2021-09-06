@@ -16,7 +16,7 @@ public class HelloWorldServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/html");
-		Cookie c = new Cookie("author", "devstudy");
+		Cookie c = new Cookie("author", "study");
 		c.setMaxAge(1800);
 		c.setPath("/");
 		c.setHttpOnly(true);

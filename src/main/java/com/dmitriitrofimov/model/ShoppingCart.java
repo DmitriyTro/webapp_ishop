@@ -75,4 +75,13 @@ public class ShoppingCart implements Serializable {
 				", totalCount = " + totalCount +
 				'}';
 	}
+
+	public String getView() {
+		StringBuilder s = new StringBuilder();
+		for (ShoppingCartItem shoppingCartItem : getItems()) {
+			s.append(shoppingCartItem.getIdProduct()).append("-&gt;")
+					.append(shoppingCartItem.getCount()).append("<br>");
+		}
+		return s.toString();
+	}
 }
